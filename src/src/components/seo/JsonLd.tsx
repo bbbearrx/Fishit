@@ -1,4 +1,4 @@
- *   </div>
+     </div>
  * );
  * 
  * USAGE EXAMPLE — BreadcrumbList Schema:
