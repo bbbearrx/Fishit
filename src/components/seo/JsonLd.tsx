@@ -1,4 +1,3 @@
-
 interface JsonLdProps {
   data: object;
 }
