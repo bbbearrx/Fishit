@@ -16,14 +16,14 @@
  * 
  * BEHAVIOR:
  * - Always visible (permanent presence)
- * - Smooth cinematic swim from left to right only
- * - Resets to left after reaching right edge
+ * - Smooth cinematic swim across full screen
+ * - Bounces off edges naturally
  * - Never blocks headline or CTA
  * 
  * INTERACTION:
  * - Soft golden aura (default)
  * - Glow increases 15% on cursor proximity
- * - Clicking the fish opens bloxy.gg in a new tab
+ * - Shows tooltip on hover: "bloxy.gg / Roblox Marketplace / Visit"
  * - Clean minimal design matching gold theme
  * 
  * ACCESSIBILITY:
@@ -36,6 +36,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { ExternalLink, X } from 'lucide-react';
 import bloxyFishImage from 'figma:asset/9bbb1fc1d86ed600f74e7a5be1d44fbbe1fdc15c.png';
 
 interface LegendaryBloxyFishProps {
@@ -56,13 +57,16 @@ export default function LegendaryBloxyFish({
   const fishRef = useRef<HTMLDivElement>(null);
   const clickTargetRef = useRef<HTMLDivElement>(null);
   const positionRef = useRef({ x: -200, y: bounds.height * 0.65 }); // Start offscreen left, lower area
-  const velocityRef = useRef({ x: 1.2, y: 0 }); // Always moving right
+  const velocityRef = useRef({ x: 1.2, y: 0 }); // Increased from 0.9 for faster swim
   const rotationRef = useRef(0);
   const tailPhaseRef = useRef(0);
   const animationFrameRef = useRef<number>();
   const shimmerPhaseRef = useRef(0);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [cursorNearby, setCursorNearby] = useState(false);
   const [sparkles, setSparkles] = useState<Array<{ id: number; x: number; y: number; opacity: number }>>([]);
+  const facingRightRef = useRef(true); // Track direction
 
   // ═══════════════════════════════════════════════════════════════════════════
   // EDITABLE: Legendary Golden Fish Appearance
@@ -200,19 +204,26 @@ export default function LegendaryBloxyFish({
         const targetRotation = verticalVelocity * 8; // Slight tilt
         rotationRef.current += (targetRotation - rotationRef.current) * 0.08;
 
-        // Reset to left when reaching right edge (only swim left to right)
-        if (pos.x > bounds.width + 100) {
-          // Reset to offscreen left
-          pos.x = -200;
-          pos.y = bounds.height * 0.65;
+        // Bounce off screen edges (smooth turn-around)
+        const margin = 50;
+        
+        // Bounce off left edge
+        if (pos.x < -margin) {
+          vel.x = Math.abs(vel.x); // Go right
+          facingRightRef.current = true;
         }
         
-        // Keep within vertical bounds
-        const margin = 50;
+        // Bounce off right edge - IMPORTANT: allow fish to go all the way across
+        if (pos.x > bounds.width - size + margin) {
+          vel.x = -Math.abs(vel.x); // Go left
+          facingRightRef.current = false;
+        }
+        
+        // Bounce off top/bottom edges
         if (pos.y < margin) {
-          pos.y = margin;
+          vel.y = Math.abs(vel.y) * 0.3;
         } else if (pos.y > bounds.height - size - margin) {
-          pos.y = bounds.height - size - margin;
+          vel.y = -Math.abs(vel.y) * 0.3;
         }
 
         // Update tail phase (elegant slow swim)
@@ -221,15 +232,21 @@ export default function LegendaryBloxyFish({
         // Update shimmer phase (6-8 second cycle)
         shimmerPhaseRef.current += 0.008;
 
-        // Apply transform (always facing right)
+        // Apply transform
         fishRef.current.style.transform = `
           translate3d(${pos.x}px, ${pos.y}px, 0) 
           rotate(${rotationRef.current}deg) 
           scale(1)
+          scaleX(${facingRightRef.current ? 1 : -1})
         `;
 
         // Update clickable area position
         clickTargetRef.current.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+
+        // Update tooltip position if shown
+        if (showTooltip) {
+          setTooltipPos({ x: pos.x, y: pos.y });
+        }
 
         // Note: No reset needed - fish bounces at edges now
       }
@@ -244,7 +261,7 @@ export default function LegendaryBloxyFish({
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [bounds, isPaused, prefersReducedMotion, isVisible, protectedZone]);
+  }, [bounds, isPaused, prefersReducedMotion, isVisible, showTooltip, protectedZone]);
 
   // ═══════════════════════════════════════════════════════════════════════════
   // INTERACTION: Cursor proximity detection (throttled for performance)
@@ -274,7 +291,17 @@ export default function LegendaryBloxyFish({
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [prefersReducedMotion, size]);
 
-  const handleFishClick = () => {
+  const handleInteraction = () => {
+    setShowTooltip(true);
+  };
+
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowTooltip(false);
+  };
+
+  const handleVisitClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     window.open('https://bloxy.gg', '_blank', 'noopener,noreferrer');
   };
 
@@ -365,10 +392,90 @@ export default function LegendaryBloxyFish({
           pointerEvents: 'auto',
           zIndex: 3,
         }}
-        onClick={handleFishClick}
+        onClick={handleInteraction}
+        onMouseEnter={handleInteraction}
+        onMouseLeave={() => {
+          // Don't auto-hide on desktop to allow clicking tooltip
+          if (window.innerWidth >= 768) return;
+          setShowTooltip(false);
+        }}
       >
         {/* Invisible hit area */}
       </div>
+
+      {/* ENGAGEMENT: Premium Tooltip (gold theme) */}
+      {showTooltip && (
+        <div
+          className="fixed z-50"
+          style={{
+            left: Math.min(tooltipPos.x + size + 15, bounds.width - 220),
+            top: Math.max(20, Math.min(tooltipPos.y - 40, bounds.height - 160)),
+          }}
+        >
+          <div 
+            className="backdrop-blur-md rounded-xl shadow-2xl p-4 min-w-[200px] max-w-[240px] border-2"
+            style={{
+              background: 'linear-gradient(135deg, rgba(30,20,0,0.95) 0%, rgba(50,35,10,0.95) 100%)',
+              borderColor: colors.accent,
+              boxShadow: `0 8px 32px rgba(212,175,55,0.3), 0 0 20px ${colors.glow}`
+            }}
+          >
+            {/* Close button (mobile) */}
+            <button
+              onClick={handleClose}
+              className="absolute top-2 right-2 transition-colors md:hidden"
+              style={{ color: colors.accent }}
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            {/* Title with golden styling */}
+            <h3 
+              className="font-bold text-lg mb-1"
+              style={{ 
+                color: colors.text,
+                textShadow: `0 0 8px ${colors.glow}, 0 2px 4px rgba(0,0,0,0.5)`
+              }}
+            >
+              bloxy.gg
+            </h3>
+            
+            {/* Subtitle */}
+            <p 
+              className="text-sm mb-3"
+              style={{ color: colors.accent }}
+            >
+              Roblox Marketplace
+            </p>
+
+            {/* Visit button with golden gradient */}
+            <button
+              onClick={handleVisitClick}
+              className="w-full font-semibold text-sm py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 border-2"
+              style={{
+                background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.primaryLight} 100%)`,
+                color: colors.shadowDeep,
+                borderColor: colors.accent,
+                boxShadow: `0 4px 12px rgba(212,175,55,0.4), inset 0 1px 0 rgba(255,255,255,0.3)`
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = `linear-gradient(135deg, ${colors.primaryLight} 0%, ${colors.accent} 100%)`;
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = `0 6px 16px rgba(212,175,55,0.5), inset 0 1px 0 rgba(255,255,255,0.4)`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = `linear-gradient(135deg, ${colors.primary} 0%, ${colors.primaryLight} 100%)`;
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = `0 4px 12px rgba(212,175,55,0.4), inset 0 1px 0 rgba(255,255,255,0.3)`;
+              }}
+            >
+              Visit
+              <ExternalLink className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Inline keyframe animations */}
       <style>{`
