@@ -36,7 +36,6 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import bloxyFishImage from 'figma:asset/9bbb1fc1d86ed600f74e7a5be1d44fbbe1fdc15c.png';
 
 interface LegendaryBloxyFishProps {
   bounds: { width: number; height: number };
@@ -305,7 +304,7 @@ export default function LegendaryBloxyFish({
       >
         {/* Premium golden fish image with bloxy.gg branding */}
         <img 
-          src={bloxyFishImage} 
+          src="/assets/bloxy-fish.png"
           alt="Legendary Bloxy Fish"
           style={{
             width: '100%',
