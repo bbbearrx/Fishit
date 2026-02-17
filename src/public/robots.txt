@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fishit.gg/sitemap.xml
