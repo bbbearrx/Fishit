@@ -31,6 +31,9 @@ import LavaBasinExpansion from "./pages/LavaBasinExpansion";
 // Codes page
 import Codes from "./pages/Codes";
 
+// Sitemap page
+import Sitemap from "./pages/Sitemap";
+
 // Guide pages
 import FirstCatch from "./pages/guides/FirstCatch";
 import UnderstandingInterface from "./pages/guides/UnderstandingInterface";
@@ -125,6 +128,9 @@ export const router = createBrowserRouter([
       { path: "guides/resource-waste-prevention", Component: ResourceWastePrevention },
       { path: "guides/inefficient-practices", Component: InefficientPractices },
       { path: "guides/what-not-to-do", Component: WhatNotToDo },
+      
+      // Sitemap page
+      { path: "sitemap", Component: Sitemap },
       
       { path: "*", Component: NotFound },
     ],
