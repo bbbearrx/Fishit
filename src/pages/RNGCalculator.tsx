@@ -203,12 +203,7 @@ export default function RNGCalculator() {
       <JsonLd data={softwareSchema} />
 
       {/* SEO: Breadcrumbs */}
-      <Breadcrumbs
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'RNG Calculator', href: '/rng-calculator' },
-        ]}
-      />
+      <Breadcrumbs />
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* HERO SECTION */}
