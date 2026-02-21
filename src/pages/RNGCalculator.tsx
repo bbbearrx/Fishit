@@ -197,18 +197,20 @@ export default function RNGCalculator() {
   // ═══════════════════════════════════════════════════════════════════════════
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
       {/* SEO: JSON-LD Schema */}
       <JsonLd data={faqSchema} />
       <JsonLd data={softwareSchema} />
 
-      {/* SEO: Breadcrumbs */}
-      <Breadcrumbs />
+      {/* Page wrapper for Breadcrumbs only */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumbs />
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* HERO SECTION */}
+      {/* HERO SECTION - Full Width */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden -mx-4 sm:-mx-6 lg:-mx-8">
+      <section className="relative overflow-hidden w-full">
         {/* Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950"></div>
@@ -219,7 +221,7 @@ export default function RNGCalculator() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE5NGY2ZSIgb3BhY2l0eT0iMC4xIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-20"></div>
         </div>
 
-        <div className="relative z-10 px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <div className="text-center">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 mb-4 backdrop-blur-sm">
@@ -243,7 +245,7 @@ export default function RNGCalculator() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ADVANCED CALCULATOR */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="w-full py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Advanced Probability Calculator"
           subtitle="See your real odds, expected casts, and time estimates"
@@ -510,44 +512,42 @@ export default function RNGCalculator() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* FAQ SECTION */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="w-full py-12">
-        <div className="max-w-4xl mx-auto">
-          <SectionHeader
-            title="Frequently Asked Questions"
-            subtitle="Understanding RNG and probability in Fish It"
-          />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <SectionHeader
+          title="Frequently Asked Questions"
+          subtitle="Understanding RNG and probability in Fish It"
+        />
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <Card key={index} className="cursor-pointer" onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}>
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                      <HelpCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
-                      {faq.question}
-                    </h3>
-                    {openFaqIndex === index && (
-                      <p className="text-gray-300 pl-7">{faq.answer}</p>
-                    )}
-                  </div>
-                  <button className="text-cyan-400 flex-shrink-0">
-                    {openFaqIndex === index ? (
-                      <ChevronUp className="w-5 h-5" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5" />
-                    )}
-                  </button>
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <Card key={index} className="cursor-pointer" onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                    <HelpCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                    {faq.question}
+                  </h3>
+                  {openFaqIndex === index && (
+                    <p className="text-gray-300 pl-7">{faq.answer}</p>
+                  )}
                 </div>
-              </Card>
-            ))}
-          </div>
+                <button className="text-cyan-400 flex-shrink-0">
+                  {openFaqIndex === index ? (
+                    <ChevronUp className="w-5 h-5" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </Card>
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* RELATED CONTENT */}
@@ -566,6 +566,6 @@ export default function RNGCalculator() {
 
       {/* Mini Sitemap */}
       <MiniSitemap />
-    </div>
+    </>
   );
 }

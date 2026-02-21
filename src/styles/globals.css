@@ -141,6 +141,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Ensure React root container is full width */
+  #root,
+  #app {
+    width: 100%;
+    min-height: 100%;
+  }
 }
 
 /**

@@ -499,6 +499,11 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  #root, #app {
+    width: 100%;
+    min-height: 100%;
+  }
+
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) h1 {
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-medium);
