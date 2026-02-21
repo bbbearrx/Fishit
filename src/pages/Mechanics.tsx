@@ -267,7 +267,7 @@ export default function Mechanics() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* SECTION: How Fishing Works */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title="How Fishing Works"
           subtitle="Core mechanics and gameplay basics"
@@ -299,7 +299,7 @@ export default function Mechanics() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* SECTION: Rod Progression System */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title="Rod Progression System"
           subtitle="Understand the upgrade path from starter to expert"
@@ -332,7 +332,7 @@ export default function Mechanics() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* SECTION: Rare Fish & Catch Strategy */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title="Rare Fish & Catch Strategy"
           subtitle="Tips for maximizing your rare catch rates"
@@ -411,7 +411,7 @@ export default function Mechanics() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* SECTION: Money Making & Selling Loop */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title="Money Making & Selling Loop"
           subtitle="Optimize your profit with efficient fishing strategies"
@@ -472,7 +472,7 @@ export default function Mechanics() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* SECTION: Core Systems Behind the Economy */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title="Core Systems Behind the Economy"
           subtitle="Understanding the mechanics that drive progression"

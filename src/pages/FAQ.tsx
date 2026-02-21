@@ -361,7 +361,7 @@ export default function FAQ() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             {/* SEO: Main H1 heading */}
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">

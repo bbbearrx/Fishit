@@ -433,7 +433,7 @@ export default function Home() {
         <PremiumFishLayer />
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <div className="text-center">
             {/* Small badge above the title */}
             <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
@@ -493,7 +493,7 @@ export default function Home() {
           <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* NEW Badge + H2 Title */}
           <div className="text-center mb-4">
             <Badge variant="legendary" className="mb-4 text-lg px-6 py-2">
@@ -665,7 +665,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ENGAGEMENT: Lava Basin Expansion Update Banner */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Card className="bg-gradient-to-r from-orange-950/50 via-red-900/50 to-orange-950/50 border-orange-500/30" glow>
           <div className="flex flex-col md:flex-row items-start gap-6">
             <div className="flex-shrink-0">
@@ -696,7 +696,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* Six clickable cards that serve as main navigation */}
       {/* Each card links to a major section of the website */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title={exploreSectionTitle}
           subtitle={exploreSectionSubtitle}
@@ -739,7 +739,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ENGAGEMENT: Latest Update Preview */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Card glow>
           <div className="flex items-start gap-4 mb-4">
             <div className="flex-shrink-0">
@@ -777,7 +777,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ENGAGEMENT: Featured Rods & Rare Catches */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
           <SectionHeader 
             title={featuredSectionTitle}
@@ -968,7 +968,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* SEO: Fish It Wiki Authority Intro Block */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-slate-800">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-slate-800">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Fish It Wiki: Database, Guides, and Verified Tables
@@ -1019,7 +1019,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* SEO: Explore Fish It Faster (Quick Navigation) */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-slate-800">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-slate-800">
         <div className="mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
             Explore Fish It Faster (Quick Navigation)
