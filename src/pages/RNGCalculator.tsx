@@ -20,10 +20,9 @@
  * - No hardcoded odds
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Calculator, TrendingUp, Clock, Target, HelpCircle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { fishData, getFishSlug } from '../data/fishData';
-import { rodData } from '../data/rodData';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Badge from '../components/Badge';
@@ -50,7 +49,6 @@ export default function RNGCalculator() {
   const [selectedFish, setSelectedFish] = useState(fishData[0]);
   const [luckMultiplier, setLuckMultiplier] = useState(100);
   const [castsPerHour, setCastsPerHour] = useState(600);
-  const [selectedRod, setSelectedRod] = useState('None');
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   
   // Custom rarity mode
@@ -197,20 +195,20 @@ export default function RNGCalculator() {
   // ═══════════════════════════════════════════════════════════════════════════
 
   return (
-    <div className="w-full">
+    <div>
       {/* SEO: JSON-LD Schema */}
       <JsonLd data={faqSchema} />
       <JsonLd data={softwareSchema} />
 
-      {/* Page wrapper for Breadcrumbs only */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Breadcrumbs */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Breadcrumbs />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* HERO SECTION - Full Width */}
+      {/* HERO SECTION */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden w-full">
+      <section className="relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950"></div>
@@ -221,7 +219,7 @@ export default function RNGCalculator() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE5NGY2ZSIgb3BhY2l0eT0iMC4xIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-20"></div>
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <div className="text-center">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 mb-4 backdrop-blur-sm">
@@ -243,9 +241,9 @@ export default function RNGCalculator() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* ADVANCED CALCULATOR */}
+      {/* CALCULATOR SECTION */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Advanced Probability Calculator"
           subtitle="See your real odds, expected casts, and time estimates"
@@ -512,12 +510,12 @@ export default function RNGCalculator() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* FAQ SECTION */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Frequently Asked Questions"
           subtitle="Understanding RNG and probability in Fish It"
@@ -547,7 +545,7 @@ export default function RNGCalculator() {
             </Card>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* RELATED CONTENT */}
@@ -564,7 +562,6 @@ export default function RNGCalculator() {
 
       <RelatedGuides />
 
-      {/* Mini Sitemap */}
       <MiniSitemap />
     </div>
   );

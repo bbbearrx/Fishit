@@ -4137,24 +4137,6 @@ html {
   font-size: var(--font-size);
 }
 
-@media (width >= 1024px) {
-  body {
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    display: flex;
-    overflow-x: hidden;
-  }
-
-  #root, #app {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 100vw;
-    display: flex;
-  }
-}
-
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;

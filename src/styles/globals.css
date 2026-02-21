@@ -202,29 +202,3 @@
 html {
   font-size: var(--font-size);
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   EMERGENCY DESKTOP CENTERING FIX
-   ═══════════════════════════════════════════════════════════════════════════
-   
-   This ensures all content is properly centered on desktop screens.
-   Applied only at large breakpoints (1024px+) to avoid affecting mobile.
-*/
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    overflow-x: hidden;
-  }
-  
-  #root,
-  #app {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 100vw;
-  }
-}
