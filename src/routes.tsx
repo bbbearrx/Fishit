@@ -31,6 +31,9 @@ import LavaBasinExpansion from "./pages/LavaBasinExpansion";
 // Codes page
 import Codes from "./pages/Codes";
 
+// Tools pages
+import RngCalculator from "./pages/RngCalculator";
+
 // Guide pages
 import FirstCatch from "./pages/guides/FirstCatch";
 import UnderstandingInterface from "./pages/guides/UnderstandingInterface";
@@ -105,6 +108,9 @@ export const router = createBrowserRouter([
       
       // Codes page
       { path: "codes", Component: Codes },
+      
+      // Tools pages
+      { path: "rng-calculator", Component: RngCalculator },
       
       // Update pages
       { path: "updates/lava-basin-expansion", Component: LavaBasinExpansion },

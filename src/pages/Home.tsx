@@ -43,7 +43,7 @@
  * Schema: FAQPage (JSON-LD injected for FAQ section)
  */
 
-import { ArrowRight, Fish, BookOpen, Package, Waves, TrendingUp, Lightbulb, Calendar, Sparkles, ChevronDown, ChevronUp, HelpCircle, Anchor } from 'lucide-react';
+import { ArrowRight, Fish, BookOpen, Package, Waves, TrendingUp, Lightbulb, Calendar, Sparkles, ChevronDown, ChevronUp, HelpCircle, Anchor, Calculator } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import Button from '../components/Button';
@@ -448,32 +448,85 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* ENGAGEMENT: Lava Basin Expansion Update Banner */}
+      {/* ENGAGEMENT: RNG Calculator Feature Highlight */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <Card className="bg-gradient-to-r from-orange-950/50 via-red-900/50 to-orange-950/50 border-orange-500/30" glow>
-          <div className="flex flex-col md:flex-row items-start gap-6">
-            <div className="flex-shrink-0">
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/50">
-                <Sparkles className="w-8 h-8 text-white" />
+        <div className="relative">
+          {/* Animated glow background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl animate-pulse"></div>
+          
+          <Card className="relative bg-gradient-to-br from-cyan-950/50 via-purple-950/50 to-blue-950/50 border-cyan-500/40" glow>
+            <div className="flex flex-col lg:flex-row items-start gap-8">
+              <div className="flex-shrink-0">
+                <div className="relative w-20 h-20 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl shadow-cyan-500/50">
+                  {/* Animated pulse ring */}
+                  <div className="absolute inset-0 rounded-xl bg-cyan-400/20 animate-ping"></div>
+                  <Calculator className="relative w-10 h-10 text-white" />
+                </div>
               </div>
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-3xl font-bold text-white">
-                  Lava Basin Expansion Update 🔥
+              
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <Badge variant="cyan" className="animate-pulse">
+                    ✨ NEW TOOL
+                  </Badge>
+                  <Badge variant="purple">
+                    PROBABILITY CALCULATOR
+                  </Badge>
+                </div>
+                
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                  Fish It RNG Calculator
                 </h2>
+                
+                <p className="text-cyan-100 text-lg mb-6 leading-relaxed">
+                  Calculate your exact chances of catching any fish in the database. Enter your target fish, luck multiplier, and fishing rate to see probability milestones (50%, 90%, 99%) and estimated time to catch. Perfect for planning rare fish hunting sessions.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-cyan-950/40 border border-cyan-500/30 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 rounded-full bg-cyan-400"></div>
+                      <span className="text-sm font-semibold text-cyan-300">Per-Cast Probability</span>
+                    </div>
+                    <p className="text-xs text-gray-400">See your exact chance with luck boosts applied</p>
+                  </div>
+                  
+                  <div className="bg-purple-950/40 border border-purple-500/30 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+                      <span className="text-sm font-semibold text-purple-300">Time Estimates</span>
+                    </div>
+                    <p className="text-xs text-gray-400">Get fishing session time predictions</p>
+                  </div>
+                  
+                  <div className="bg-pink-950/40 border border-pink-500/30 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 rounded-full bg-pink-400"></div>
+                      <span className="text-sm font-semibold text-pink-300">Success Milestones</span>
+                    </div>
+                    <p className="text-xs text-gray-400">Know when you'll likely succeed</p>
+                  </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-4">
+                  <Link to="/rng-calculator" className="inline-block">
+                    <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 shadow-lg shadow-cyan-500/30">
+                      <Calculator className="w-5 h-5 mr-2" />
+                      Try RNG Calculator
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </Link>
+                  
+                  <Button to="/fish-database" variant="outline" size="lg">
+                    <Fish className="w-5 h-5 mr-2" />
+                    Browse Fish Database
+                  </Button>
+                </div>
               </div>
-              <p className="text-orange-100 mb-6 text-lg">
-                New area, charm crafting system, new resources, quests, QoL improvements, and anti-cheat upgrades.
-              </p>
-              <Button to="/updates/lava-basin-expansion" size="lg">
-                Read Full Update
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
@@ -705,7 +758,7 @@ export default function Home() {
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ENGAGEMENT: FAQ Accordion */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════���═══════════════════════════════════════ */}
       <section id="faq" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title="Frequently Asked Questions"

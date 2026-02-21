@@ -31,7 +31,7 @@
  */
 
 import { Link } from 'react-router';
-import { FileText, Trophy, TrendingUp } from 'lucide-react';
+import { FileText, Trophy, TrendingUp, Calculator } from 'lucide-react';
 
 export default function MiniSitemap() {
   // ═══════════════════════════════════════════════════════════════════════════
@@ -48,6 +48,7 @@ export default function MiniSitemap() {
         { label: 'Game Overview', href: '/overview' },
         { label: 'How to Play', href: '/how-to-play' },
         { label: 'Rod Tier List', href: '/rod-tier-list' },
+        { label: 'RNG Calculator', href: '/rng-calculator' },
         { label: 'Fishing Mechanics', href: '/mechanics' },
         { label: 'FAQ & Help', href: '/faq' },
       ],
