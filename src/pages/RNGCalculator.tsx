@@ -461,21 +461,16 @@ export default function RNGCalculator() {
       {/* RELATED CONTENT */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
       <RelatedPages
-        pages={[
-          { title: 'Fish Database', description: 'Browse all fish with exact drop rates', href: '/fish-database' },
-          { title: 'Secret Fish Guide', description: 'Complete catalog of secret-tier catches', href: '/secret-fish' },
-          { title: 'Fishing Rods Database', description: 'Compare all rods and their luck stats', href: '/fishing-rods' },
-          { title: 'Rod Tier List', description: 'Best rods ranked by performance', href: '/rod-tier-list' },
+        parent={{ label: "Fish Database", href: "/fish-database" }}
+        related={[
+          { label: "Secret Fish Guide", href: "/secret-fish" },
+          { label: "Fishing Rods Database", href: "/fishing-rods" },
+          { label: "Rod Tier List", href: "/rod-tier-list" },
         ]}
+        includeHome={true}
       />
 
-      <RelatedGuides
-        guides={[
-          { title: 'Rare Fish Hunting', description: 'Strategies for targeting mythic and secret fish', href: '/guides/rare-fish-hunting' },
-          { title: 'Optimization Strategies', description: 'Min-max your fishing efficiency', href: '/guides/optimization-strategies' },
-          { title: 'Advanced Fishing Techniques', description: 'Master-level fishing tactics', href: '/guides/advanced-fishing-techniques' },
-        ]}
-      />
+      <RelatedGuides />
 
       {/* Mini Sitemap */}
       <MiniSitemap />

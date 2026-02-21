@@ -70,6 +70,24 @@ interface RelatedPagesProps {
 }
 
 export default function RelatedPages({ parent, related, includeHome = true }: RelatedPagesProps) {
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DEFENSIVE GUARDS: Prevent crashes if props are missing or invalid
+  // ═══════════════════════════════════════════════════════════════════════════
+  
+  // If parent is completely missing or invalid, return null (fail silently)
+  if (!parent || !parent.href || !parent.label) {
+    console.warn('[RelatedPages] Invalid parent prop - component will not render');
+    return null;
+  }
+
+  // Filter out invalid related items (missing href or label)
+  const validRelatedItems = related?.filter(item => item && item.href && item.label) || [];
+  
+  // If no valid related items exist, log warning but still render parent + home
+  if (validRelatedItems.length === 0) {
+    console.warn('[RelatedPages] No valid related items found');
+  }
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Container with calm ocean styling */}
@@ -105,7 +123,7 @@ export default function RelatedPages({ parent, related, includeHome = true }: Re
               <span>Related Content</span>
             </div>
             <div className="space-y-2">
-              {related.map((item, index) => (
+              {validRelatedItems.map((item, index) => (
                 <Link
                   key={index}
                   to={item.href}
