@@ -53,7 +53,7 @@ export default function NetworkPromo() {
   ];
 
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <Card className="bg-gradient-to-br from-slate-900 to-cyan-950/30 border-2 border-cyan-500/20">
         <div className="text-center">
           {/* Network icon */}

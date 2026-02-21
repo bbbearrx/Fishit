@@ -99,7 +99,7 @@ export default function Breadcrumbs() {
   return (
     <nav 
       aria-label="Breadcrumb" 
-      className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"
     >
       {/* STRUCTURE: Breadcrumb list with proper ARIA semantics for accessibility */}
       <ol className="flex flex-wrap items-center gap-2 text-sm">

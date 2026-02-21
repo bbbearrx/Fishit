@@ -89,7 +89,7 @@ export default function RelatedPages({ parent, related, includeHome = true }: Re
   }
 
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Container with calm ocean styling */}
       <div className="bg-gradient-to-br from-slate-900 to-cyan-950/20 border border-cyan-500/20 rounded-lg p-6 md:p-8">
         <h2 className="text-2xl font-bold text-white mb-6 text-center">
