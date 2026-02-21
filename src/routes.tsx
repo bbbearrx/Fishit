@@ -51,6 +51,28 @@ import ResourceWastePrevention from "./pages/guides/ResourceWastePrevention";
 import InefficientPractices from "./pages/guides/InefficientPractices";
 import WhatNotToDo from "./pages/guides/WhatNotToDo";
 
+// Location wrapper components
+import FishermanIsland from "./pages/locations/FishermanIsland";
+import TheOcean from "./pages/locations/TheOcean";
+import KohanaIsland from "./pages/locations/KohanaIsland";
+import KohanaVolcano from "./pages/locations/KohanaVolcano";
+import CoralReefIsland from "./pages/locations/CoralReefIsland";
+import EsotericDepths from "./pages/locations/EsotericDepths";
+import TropicalGrove from "./pages/locations/TropicalGrove";
+import CraterIsland from "./pages/locations/CraterIsland";
+import LostIsle from "./pages/locations/LostIsle";
+import AncientJungle from "./pages/locations/AncientJungle";
+import ClassicIsland from "./pages/locations/ClassicIsland";
+
+// Rarity wrapper components
+import CommonRarity from "./pages/rarities/CommonRarity";
+import UncommonRarity from "./pages/rarities/UncommonRarity";
+import RareRarity from "./pages/rarities/RareRarity";
+import EpicRarity from "./pages/rarities/EpicRarity";
+import LegendaryRarity from "./pages/rarities/LegendaryRarity";
+import MythicRarity from "./pages/rarities/MythicRarity";
+import SecretRarity from "./pages/rarities/SecretRarity";
+
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  * ROUTER ENVIRONMENT DETECTION
@@ -62,8 +84,9 @@ import WhatNotToDo from "./pages/guides/WhatNotToDo";
  * - BrowserRouter (/page) for production deployments (Cloudflare Pages)
  * 
  * WHY THIS IS NEEDED:
- * Figma's preview environment doesn't support HTML5 pushState routing,
- * so we need to use hash-based routing in preview but clean URLs in production.
+ * Figma's preview environment doesn't support HTML5 pushState routing properly,
+ * causing "href" errors with createBrowserRouter. Hash-based routing works
+ * everywhere but uses #/page URLs. We want clean URLs in production.
  * 
  * DETECTION LOGIC:
  * If hostname includes "figma", "preview", or "localhost" → use HashRouter
@@ -112,27 +135,27 @@ const routeConfig = [
       { path: "fish/:slug", Component: FishDetailPage },
       
       // Location pages
-      { path: "fish-database/fisherman-island", element: <LocationPage locationName="Fisherman Island" /> },
-      { path: "fish-database/the-ocean", element: <LocationPage locationName="The Ocean" /> },
-      { path: "fish-database/kohana-island", element: <LocationPage locationName="Kohana Island" /> },
-      { path: "fish-database/kohana-volcano", element: <LocationPage locationName="Kohana Volcano" /> },
-      { path: "fish-database/coral-reef-island", element: <LocationPage locationName="Coral Reef Island" /> },
-      { path: "fish-database/esoteric-depths", element: <LocationPage locationName="Esoteric Depths" /> },
-      { path: "fish-database/tropical-grove", element: <LocationPage locationName="Tropical Grove" /> },
-      { path: "fish-database/crater-island", element: <LocationPage locationName="Crater Island" /> },
-      { path: "fish-database/lost-isle", element: <LocationPage locationName="Lost Isle" /> },
-      { path: "fish-database/ancient-jungle", element: <LocationPage locationName="Ancient Jungle" /> },
-      { path: "fish-database/classic-island", element: <LocationPage locationName="Classic Island" /> },
+      { path: "fish-database/fisherman-island", Component: FishermanIsland },
+      { path: "fish-database/the-ocean", Component: TheOcean },
+      { path: "fish-database/kohana-island", Component: KohanaIsland },
+      { path: "fish-database/kohana-volcano", Component: KohanaVolcano },
+      { path: "fish-database/coral-reef-island", Component: CoralReefIsland },
+      { path: "fish-database/esoteric-depths", Component: EsotericDepths },
+      { path: "fish-database/tropical-grove", Component: TropicalGrove },
+      { path: "fish-database/crater-island", Component: CraterIsland },
+      { path: "fish-database/lost-isle", Component: LostIsle },
+      { path: "fish-database/ancient-jungle", Component: AncientJungle },
+      { path: "fish-database/classic-island", Component: ClassicIsland },
       
       // Rarity pages
       { path: "rarities", Component: RaritiesHub },
-      { path: "rarities/common", element: <RarityPage rarity="Common" /> },
-      { path: "rarities/uncommon", element: <RarityPage rarity="Uncommon" /> },
-      { path: "rarities/rare", element: <RarityPage rarity="Rare" /> },
-      { path: "rarities/epic", element: <RarityPage rarity="Epic" /> },
-      { path: "rarities/legendary", element: <RarityPage rarity="Legendary" /> },
-      { path: "rarities/mythic", element: <RarityPage rarity="Mythic" /> },
-      { path: "rarities/secret", element: <RarityPage rarity="Secret" /> },
+      { path: "rarities/common", Component: CommonRarity },
+      { path: "rarities/uncommon", Component: UncommonRarity },
+      { path: "rarities/rare", Component: RareRarity },
+      { path: "rarities/epic", Component: EpicRarity },
+      { path: "rarities/legendary", Component: LegendaryRarity },
+      { path: "rarities/mythic", Component: MythicRarity },
+      { path: "rarities/secret", Component: SecretRarity },
       
       // Secret Fish page
       { path: "secret-fish", Component: SecretFish },
@@ -185,8 +208,8 @@ const useHashRouter = isPreviewEnvironment();
 // Log which router is being used (helpful for debugging)
 if (typeof window !== 'undefined') {
   console.log(
-    `[Fish It Router] Using ${useHashRouter ? 'HashRouter' : 'BrowserRouter'} ` +
-    `(hostname: ${window.location.hostname})`
+    `[Fish It Router] Using ${useHashRouter ? 'HashRouter (#/page URLs)' : 'BrowserRouter (/page URLs)'} ` +
+    `for hostname: ${window.location.hostname}`
   );
 }
 
