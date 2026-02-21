@@ -52,6 +52,46 @@ export default function RNGCalculator() {
   const [castsPerHour, setCastsPerHour] = useState(600);
   const [selectedRod, setSelectedRod] = useState('None');
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  
+  // Custom rarity mode
+  const [useCustomRarity, setUseCustomRarity] = useState(false);
+  const [customRarityValue, setCustomRarityValue] = useState(1000000);
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SORT FISH BY RARITY (RAREST FIRST)
+  // ═══════════════════════════════════════════════════════════════════════════
+  
+  const rarityOrder: { [key: string]: number } = {
+    'Secret': 1,
+    'Mythic': 2,
+    'Legendary': 3,
+    'Epic': 4,
+    'Rare': 5,
+    'Uncommon': 6,
+    'Common': 7
+  };
+  
+  const sortedFishData = [...fishData].sort((a, b) => {
+    const rarityA = rarityOrder[a.Rarity] || 999;
+    const rarityB = rarityOrder[b.Rarity] || 999;
+    
+    // Sort by rarity first
+    if (rarityA !== rarityB) {
+      return rarityA - rarityB;
+    }
+    
+    // If same rarity, sort by chance (parse "1 in X")
+    const parseChanceForSort = (chanceStr: string): number => {
+      const match = chanceStr.match(/1 in ([\d,]+)/);
+      if (!match) return 0;
+      return parseInt(match[1].replace(/,/g, ''));
+    };
+    
+    const chanceA = parseChanceForSort(a.Chance);
+    const chanceB = parseChanceForSort(b.Chance);
+    
+    return chanceB - chanceA; // Higher number = rarer = show first
+  });
 
   // ═══════════════════════════════════════════════════════════════════════════
   // CALCULATION LOGIC
@@ -70,7 +110,7 @@ export default function RNGCalculator() {
     return 1 / denominator;
   };
 
-  const baseChance = parseChance(selectedFish.Chance);
+  const baseChance = useCustomRarity ? 1 / customRarityValue : parseChance(selectedFish.Chance);
   
   // Apply luck multiplier (simplified model: luck increases odds linearly)
   const effectiveChance = baseChance ? baseChance * (luckMultiplier / 100) : null;
@@ -184,21 +224,21 @@ export default function RNGCalculator() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE5NGY2ZSIgb3BhY2l0eT0iMC4xIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-20"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <div className="text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 mb-4 backdrop-blur-sm">
               <Calculator className="w-5 h-5 text-cyan-400" />
               <span className="text-cyan-300 text-sm font-semibold">Advanced Probability Tool</span>
             </div>
 
             {/* H1 */}
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl">
               {pageTitle}
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl md:text-2xl text-cyan-100 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-cyan-100 mb-6 max-w-3xl mx-auto">
               {pageSubtitle}
             </p>
           </div>
@@ -208,7 +248,7 @@ export default function RNGCalculator() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ADVANCED CALCULATOR */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Advanced Probability Calculator"
           subtitle="See your real odds, expected casts, and time estimates"
@@ -224,26 +264,64 @@ export default function RNGCalculator() {
               </h3>
 
               <div className="space-y-6">
-                {/* Fish Selection */}
-                <div>
-                  <label className="block text-sm font-semibold text-cyan-400 mb-2">
-                    Select Fish
+                {/* Custom Rarity Toggle */}
+                <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 border border-purple-500/30 rounded-lg p-4">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={useCustomRarity}
+                      onChange={(e) => setUseCustomRarity(e.target.checked)}
+                      className="w-5 h-5 accent-cyan-500 cursor-pointer"
+                    />
+                    <div>
+                      <span className="text-white font-semibold">Custom Rarity Mode</span>
+                      <p className="text-xs text-gray-400 mt-1">Calculate odds for any "1 in X" rarity</p>
+                    </div>
                   </label>
-                  <select
-                    value={selectedFish["Fish Name"]}
-                    onChange={(e) => {
-                      const fish = fishData.find(f => f["Fish Name"] === e.target.value);
-                      if (fish) setSelectedFish(fish);
-                    }}
-                    className="w-full bg-slate-800 border border-cyan-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
-                  >
-                    {fishData.map((fish, idx) => (
-                      <option key={idx} value={fish["Fish Name"]}>
-                        {fish["Fish Name"]} ({fish.Rarity}) - {fish.Chance}
-                      </option>
-                    ))}
-                  </select>
                 </div>
+
+                {/* Fish Selection OR Custom Rarity Input */}
+                {useCustomRarity ? (
+                  <div>
+                    <label className="block text-sm font-semibold text-cyan-400 mb-2">
+                      Custom Rarity (1 in X)
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span className="text-white font-semibold">1 in</span>
+                      <input
+                        type="number"
+                        value={customRarityValue}
+                        onChange={(e) => setCustomRarityValue(Math.max(1, parseInt(e.target.value) || 1000000))}
+                        className="flex-1 bg-slate-800 border border-cyan-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+                        min="1"
+                        placeholder="1000000"
+                      />
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Example: Enter "500000" for a 1 in 500,000 chance
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-sm font-semibold text-cyan-400 mb-2">
+                      Select Fish
+                    </label>
+                    <select
+                      value={selectedFish["Fish Name"]}
+                      onChange={(e) => {
+                        const fish = fishData.find(f => f["Fish Name"] === e.target.value);
+                        if (fish) setSelectedFish(fish);
+                      }}
+                      className="w-full bg-slate-800 border border-cyan-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+                    >
+                      {sortedFishData.map((fish, idx) => (
+                        <option key={idx} value={fish["Fish Name"]}>
+                          {fish["Fish Name"]} ({fish.Rarity}) - {fish.Chance}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
 
                 {/* Luck Multiplier */}
                 <div>
@@ -281,39 +359,56 @@ export default function RNGCalculator() {
           {/* RIGHT: Results Display */}
           <div className="lg:col-span-2">
             <div className="space-y-6">
-              {/* Selected Fish Info */}
-              <Card className="bg-gradient-to-br from-cyan-950/30 to-blue-950/30 border-cyan-500/30">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-3xl font-bold text-white mb-2">{selectedFish["Fish Name"]}</h3>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={
-                        selectedFish.Rarity === 'Secret' ? 'legendary' :
-                        selectedFish.Rarity === 'Mythic' ? 'epic' :
-                        selectedFish.Rarity === 'Legendary' ? 'rare' :
-                        selectedFish.Rarity === 'Epic' ? 'rare' : 'common'
-                      }>
-                        {selectedFish.Rarity}
-                      </Badge>
-                      <span className="text-gray-400">{selectedFish.Location}</span>
+              {/* Selected Fish Info OR Custom Rarity Info */}
+              {useCustomRarity ? (
+                <Card className="bg-gradient-to-br from-purple-950/30 to-pink-950/30 border-purple-500/30">
+                  <div className="text-center">
+                    <div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-4 py-2 mb-4">
+                      <Sparkles className="w-5 h-5 text-purple-400" />
+                      <span className="text-purple-300 text-sm font-semibold">Custom Rarity Mode</span>
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-2">
+                      1 in {customRarityValue.toLocaleString()}
+                    </h3>
+                    <p className="text-gray-300">
+                      Calculating probabilities for a custom rarity
+                    </p>
+                  </div>
+                </Card>
+              ) : (
+                <Card className="bg-gradient-to-br from-cyan-950/30 to-blue-950/30 border-cyan-500/30">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-3xl font-bold text-white mb-2">{selectedFish["Fish Name"]}</h3>
+                      <div className="flex items-center gap-2">
+                        <Badge variant={
+                          selectedFish.Rarity === 'Secret' ? 'legendary' :
+                          selectedFish.Rarity === 'Mythic' ? 'epic' :
+                          selectedFish.Rarity === 'Legendary' ? 'rare' :
+                          selectedFish.Rarity === 'Epic' ? 'rare' : 'common'
+                        }>
+                          {selectedFish.Rarity}
+                        </Badge>
+                        <span className="text-gray-400">{selectedFish.Location}</span>
+                      </div>
+                    </div>
+                    <Link to={`/fish/${getFishSlug(selectedFish["Fish Name"])}`}>
+                      <Button variant="outline" size="sm">View Details</Button>
+                    </Link>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-400">Base Chance:</span>
+                      <span className="text-white ml-2 font-semibold">{selectedFish.Chance}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Value:</span>
+                      <span className="text-white ml-2 font-semibold">{selectedFish.Value}</span>
                     </div>
                   </div>
-                  <Link to={`/fish/${getFishSlug(selectedFish["Fish Name"])}`}>
-                    <Button variant="outline" size="sm">View Details</Button>
-                  </Link>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-400">Base Chance:</span>
-                    <span className="text-white ml-2 font-semibold">{selectedFish.Chance}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-400">Value:</span>
-                    <span className="text-white ml-2 font-semibold">{selectedFish.Value}</span>
-                  </div>
-                </div>
-              </Card>
+                </Card>
+              )}
 
               {/* Results */}
               {baseChance === null ? (
@@ -425,7 +520,7 @@ export default function RNGCalculator() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* FAQ SECTION */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Frequently Asked Questions"
           subtitle="Understanding RNG and probability in Fish It"
