@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, createHashRouter } from "react-router";
 import Root from "./components/Root";
 import Home from "./pages/Home";
 import GameOverview from "./pages/GameOverview";
@@ -25,14 +25,14 @@ import FishingRods from "./pages/FishingRods";
 import RodDetailPage from "./pages/RodDetailPage";
 import RodTierList from "./pages/RodTierList";
 
+// RNG Calculator
+import RNGCalculator from "./pages/RNGCalculator";
+
 // Update pages
 import LavaBasinExpansion from "./pages/LavaBasinExpansion";
 
 // Codes page
 import Codes from "./pages/Codes";
-
-// Tools pages
-import RngCalculator from "./pages/RngCalculator";
 
 // Guide pages
 import FirstCatch from "./pages/guides/FirstCatch";
@@ -51,7 +51,45 @@ import ResourceWastePrevention from "./pages/guides/ResourceWastePrevention";
 import InefficientPractices from "./pages/guides/InefficientPractices";
 import WhatNotToDo from "./pages/guides/WhatNotToDo";
 
-export const router = createBrowserRouter([
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ROUTER ENVIRONMENT DETECTION
+ * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * PURPOSE:
+ * Automatically choose the correct router type based on the environment:
+ * - HashRouter (#/page) for Figma preview, localhost, and preview environments
+ * - BrowserRouter (/page) for production deployments (Cloudflare Pages)
+ * 
+ * WHY THIS IS NEEDED:
+ * Figma's preview environment doesn't support HTML5 pushState routing,
+ * so we need to use hash-based routing in preview but clean URLs in production.
+ * 
+ * DETECTION LOGIC:
+ * If hostname includes "figma", "preview", or "localhost" → use HashRouter
+ * Otherwise → use BrowserRouter (production)
+ */
+
+const isPreviewEnvironment = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  const hostname = window.location.hostname.toLowerCase();
+  
+  // Check if we're in Figma preview, localhost, or other preview environments
+  return (
+    hostname.includes('figma') ||
+    hostname.includes('preview') ||
+    hostname.includes('localhost') ||
+    hostname === '127.0.0.1' ||
+    hostname === ''
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE CONFIGURATION (shared by both router types)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const routeConfig = [
   {
     path: "/",
     Component: Root,
@@ -106,11 +144,11 @@ export const router = createBrowserRouter([
       // Rod Tier List
       { path: "rod-tier-list", Component: RodTierList },
       
+      // RNG Calculator
+      { path: "rng-calculator", Component: RNGCalculator },
+      
       // Codes page
       { path: "codes", Component: Codes },
-      
-      // Tools pages
-      { path: "rng-calculator", Component: RngCalculator },
       
       // Update pages
       { path: "updates/lava-basin-expansion", Component: LavaBasinExpansion },
@@ -135,4 +173,21 @@ export const router = createBrowserRouter([
       { path: "*", Component: NotFound },
     ],
   },
-]);
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTER CREATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Determine which router to use based on environment
+const useHashRouter = isPreviewEnvironment();
+
+// Log which router is being used (helpful for debugging)
+if (typeof window !== 'undefined') {
+  console.log(
+    `[Fish It Router] Using ${useHashRouter ? 'HashRouter' : 'BrowserRouter'} ` +
+    `(hostname: ${window.location.hostname})`
+  );
+}
+
+export const router = useHashRouter ? createHashRouter(routeConfig) : createBrowserRouter(routeConfig);

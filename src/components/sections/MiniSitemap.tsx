@@ -31,7 +31,7 @@
  */
 
 import { Link } from 'react-router';
-import { FileText, Trophy, TrendingUp, Calculator } from 'lucide-react';
+import { FileText, Trophy, TrendingUp } from 'lucide-react';
 
 export default function MiniSitemap() {
   // ═══════════════════════════════════════════════════════════════════════════

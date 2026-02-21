@@ -43,7 +43,7 @@
  * Schema: FAQPage (JSON-LD injected for FAQ section)
  */
 
-import { ArrowRight, Fish, BookOpen, Package, Waves, TrendingUp, Lightbulb, Calendar, Sparkles, ChevronDown, ChevronUp, HelpCircle, Anchor, Calculator } from 'lucide-react';
+import { ArrowRight, Fish, BookOpen, Package, Waves, TrendingUp, Lightbulb, Calendar, Sparkles, ChevronDown, ChevronUp, HelpCircle, Anchor, Calculator, Target, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import Button from '../components/Button';
@@ -55,6 +55,7 @@ import MiniSitemap from '../components/sections/MiniSitemap';
 import NetworkPromo from '../components/sections/NetworkPromo';
 import JsonLd from '../components/seo/JsonLd';
 import PremiumFishLayer from '../components/hero/PremiumFishLayer';
+import { fishData, getFishSlug } from '../data/fishData';
 
 export default function Home() {
   // ═══════════════════════════════════════════════════════════════════════════
@@ -66,6 +67,39 @@ export default function Home() {
   const handleFaqToggle = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // ENGAGEMENT: RNG Calculator Mini Preview State
+  // ═══════════════════════════════════════════════════════════════════════════
+  
+  // Select a high-value secret fish for the preview
+  const previewFish = fishData.find(f => f["Fish Name"] === "Hacker Shark") || fishData[0];
+  const [previewLuck, setPreviewLuck] = useState(100);
+  const [previewCasts, setPreviewCasts] = useState(600);
+
+  // Simple RNG calculation for preview
+  const parseChance = (chanceStr: string): number | null => {
+    if (chanceStr === '???' || chanceStr === 'Event Only' || chanceStr === 'Event/Quest' || chanceStr === 'Quest' || chanceStr === 'Boss/Event') {
+      return null;
+    }
+    const match = chanceStr.match(/1 in ([\d,]+)/);
+    if (!match) return null;
+    const denominator = parseInt(match[1].replace(/,/g, ''));
+    return 1 / denominator;
+  };
+
+  const previewBaseChance = parseChance(previewFish.Chance);
+  const previewEffectiveChance = previewBaseChance ? previewBaseChance * (previewLuck / 100) : null;
+  const previewExpectedCasts = previewEffectiveChance ? Math.round(1 / previewEffectiveChance) : null;
+  const previewExpectedHours = previewExpectedCasts && previewCasts > 0 
+    ? (previewExpectedCasts / previewCasts).toFixed(1) 
+    : null;
+  const preview50Percent = previewEffectiveChance 
+    ? Math.ceil(Math.log(0.5) / Math.log(1 - previewEffectiveChance))
+    : null;
+  const preview90Percent = previewEffectiveChance 
+    ? Math.ceil(Math.log(0.1) / Math.log(1 - previewEffectiveChance))
+    : null;
 
   // ═══════════════════════════════════════════════════════════════════════════
   // EDITABLE CONTENT — SAFE TO CHANGE
@@ -448,85 +482,213 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* ENGAGEMENT: RNG Calculator Feature Highlight */}
+      {/* ENGAGEMENT: NEW RNG CALCULATOR PREVIEW — FLAGSHIP FEATURE */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* SEO: Fish It RNG, Fish It calculator, Fish It secret fish odds */}
+      <section className="relative overflow-hidden">
+        {/* Premium background with grid overlay */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-slate-900 via-purple-950/20 to-slate-900">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE5NGY2ZSIgb3BhY2l0eT0iMC4xIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
+          <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          {/* NEW Badge + H2 Title */}
+          <div className="text-center mb-4">
+            <Badge variant="legendary" className="mb-4 text-lg px-6 py-2">
+              <Sparkles className="w-5 h-5 mr-2 inline" />
+              NEW FEATURE
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              🎣 FishIt Catch Probability Calculator
+            </h2>
+            <p className="text-xl text-cyan-100 max-w-3xl mx-auto">
+              Instantly calculate your real chances of catching any secret fish in Fish It. 
+              See how many casts you'll need, how long it will take, and your probability of success — even with luck boosts.
+            </p>
+          </div>
+
+          {/* Two-Column Layout: Mini Calculator + Visualization */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+            
+            {/* LEFT: Mini Interactive Preview */}
+            <Card className="bg-gradient-to-br from-purple-950/40 to-blue-950/40 border-purple-500/30">
+              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <Calculator className="w-6 h-6 text-purple-400" />
+                Quick RNG Calculator
+              </h3>
+
+              {/* Selected Fish Display */}
+              <div className="mb-6 pb-6 border-b border-purple-500/20">
+                <p className="text-sm text-gray-400 mb-2">Preview Fish:</p>
+                <div className="flex items-center gap-3">
+                  <Badge variant="legendary">{previewFish.Rarity}</Badge>
+                  <span className="text-white font-bold text-lg">{previewFish["Fish Name"]}</span>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">Base Chance: {previewFish.Chance}</p>
+              </div>
+
+              {/* Simple Inputs */}
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-sm font-semibold text-purple-300 mb-2">
+                    Luck Multiplier (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={previewLuck}
+                    onChange={(e) => setPreviewLuck(Math.max(1, parseInt(e.target.value) || 100))}
+                    className="w-full bg-slate-800 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-400"
+                    min="1"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-purple-300 mb-2">
+                    Casts Per Hour
+                  </label>
+                  <input
+                    type="number"
+                    value={previewCasts}
+                    onChange={(e) => setPreviewCasts(Math.max(1, parseInt(e.target.value) || 600))}
+                    className="w-full bg-slate-800 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-400"
+                    min="1"
+                  />
+                </div>
+              </div>
+
+              {/* Live Simple Results */}
+              {previewEffectiveChance && previewExpectedCasts && (
+                <div className="bg-purple-950/50 border border-purple-500/20 rounded-lg p-4 space-y-3">
+                  <p className="text-purple-100 text-sm leading-relaxed">
+                    <strong className="text-purple-300">You will catch this fish on average once every ~{previewExpectedCasts.toLocaleString()} casts.</strong>
+                  </p>
+                  <p className="text-purple-100 text-sm leading-relaxed">
+                    After 1,000 casts, you have a <strong className="text-cyan-300">{((1 - Math.pow(1 - previewEffectiveChance, 1000)) * 100).toFixed(1)}%</strong> chance of getting it.
+                  </p>
+                  <p className="text-purple-100 text-sm leading-relaxed">
+                    <strong className="text-cyan-300">90% chance</strong> after approximately <strong className="text-white">{preview90Percent?.toLocaleString()}</strong> casts (~{((preview90Percent || 0) / previewCasts).toFixed(1)} hours).
+                  </p>
+                </div>
+              )}
+
+              {/* CTA Button */}
+              <div className="mt-6">
+                <Button to="/rng-calculator" size="lg" className="w-full group">
+                  <span className="flex items-center justify-center">
+                    Open Full RNG Calculator
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Button>
+              </div>
+            </Card>
+
+            {/* RIGHT: Animated Probability Visualization */}
+            <Card className="bg-gradient-to-br from-cyan-950/40 to-purple-950/40 border-cyan-500/30 flex flex-col items-center justify-center">
+              <div className="w-full">
+                <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2 justify-center">
+                  <Zap className="w-6 h-6 text-cyan-400" />
+                  Probability Breakdown
+                </h3>
+
+                {/* Animated Stats Grid */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="bg-purple-950/50 border border-purple-500/20 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-purple-300 mb-1 animate-pulse">
+                      {previewExpectedCasts ? previewExpectedCasts.toLocaleString() : '---'}
+                    </div>
+                    <div className="text-xs text-gray-400">Expected Casts</div>
+                  </div>
+
+                  <div className="bg-cyan-950/50 border border-cyan-500/20 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-cyan-300 mb-1 animate-pulse">
+                      {previewExpectedHours || '---'} hrs
+                    </div>
+                    <div className="text-xs text-gray-400">Expected Time</div>
+                  </div>
+
+                  <div className="bg-blue-950/50 border border-blue-500/20 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-300 mb-1">
+                      {preview50Percent ? preview50Percent.toLocaleString() : '---'}
+                    </div>
+                    <div className="text-xs text-gray-400">50% Milestone</div>
+                  </div>
+
+                  <div className="bg-teal-950/50 border border-teal-500/20 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-teal-300 mb-1">
+                      {preview90Percent ? preview90Percent.toLocaleString() : '---'}
+                    </div>
+                    <div className="text-xs text-gray-400">90% Milestone</div>
+                  </div>
+                </div>
+
+                {/* Visual Progress Bar Animation */}
+                <div className="relative">
+                  <div className="h-3 bg-slate-800 rounded-full overflow-hidden border border-cyan-500/30 mb-2">
+                    <div 
+                      className="h-full bg-gradient-to-r from-purple-500 via-cyan-500 to-blue-500 rounded-full animate-pulse"
+                      style={{ width: '75%' }}
+                    ></div>
+                  </div>
+                  <p className="text-center text-sm text-gray-400">Probability visualization</p>
+                </div>
+
+                {/* Key Features List */}
+                <div className="mt-8 space-y-3">
+                  <div className="flex items-center gap-3 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-cyan-400"></div>
+                    <span className="text-gray-300">Real-time calculations based on actual fish data</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+                    <span className="text-gray-300">Adjust for luck boosts and casting speed</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                    <span className="text-gray-300">See milestone probabilities (50%, 75%, 90%, 99%)</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* SEO Keywords Callout */}
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-500">
+              Keywords: Fish It RNG • Fish It calculator • Fish It secret fish odds • Fish It catch probability • Fish It luck multiplier
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* ENGAGEMENT: Lava Basin Expansion Update Banner */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="relative">
-          {/* Animated glow background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl animate-pulse"></div>
-          
-          <Card className="relative bg-gradient-to-br from-cyan-950/50 via-purple-950/50 to-blue-950/50 border-cyan-500/40" glow>
-            <div className="flex flex-col lg:flex-row items-start gap-8">
-              <div className="flex-shrink-0">
-                <div className="relative w-20 h-20 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl shadow-cyan-500/50">
-                  {/* Animated pulse ring */}
-                  <div className="absolute inset-0 rounded-xl bg-cyan-400/20 animate-ping"></div>
-                  <Calculator className="relative w-10 h-10 text-white" />
-                </div>
-              </div>
-              
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <Badge variant="cyan" className="animate-pulse">
-                    ✨ NEW TOOL
-                  </Badge>
-                  <Badge variant="purple">
-                    PROBABILITY CALCULATOR
-                  </Badge>
-                </div>
-                
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Fish It RNG Calculator
-                </h2>
-                
-                <p className="text-cyan-100 text-lg mb-6 leading-relaxed">
-                  Calculate your exact chances of catching any fish in the database. Enter your target fish, luck multiplier, and fishing rate to see probability milestones (50%, 90%, 99%) and estimated time to catch. Perfect for planning rare fish hunting sessions.
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-cyan-950/40 border border-cyan-500/30 rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-2 h-2 rounded-full bg-cyan-400"></div>
-                      <span className="text-sm font-semibold text-cyan-300">Per-Cast Probability</span>
-                    </div>
-                    <p className="text-xs text-gray-400">See your exact chance with luck boosts applied</p>
-                  </div>
-                  
-                  <div className="bg-purple-950/40 border border-purple-500/30 rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-2 h-2 rounded-full bg-purple-400"></div>
-                      <span className="text-sm font-semibold text-purple-300">Time Estimates</span>
-                    </div>
-                    <p className="text-xs text-gray-400">Get fishing session time predictions</p>
-                  </div>
-                  
-                  <div className="bg-pink-950/40 border border-pink-500/30 rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-2 h-2 rounded-full bg-pink-400"></div>
-                      <span className="text-sm font-semibold text-pink-300">Success Milestones</span>
-                    </div>
-                    <p className="text-xs text-gray-400">Know when you'll likely succeed</p>
-                  </div>
-                </div>
-                
-                <div className="flex flex-wrap gap-4">
-                  <Link to="/rng-calculator" className="inline-block">
-                    <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 shadow-lg shadow-cyan-500/30">
-                      <Calculator className="w-5 h-5 mr-2" />
-                      Try RNG Calculator
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </Button>
-                  </Link>
-                  
-                  <Button to="/fish-database" variant="outline" size="lg">
-                    <Fish className="w-5 h-5 mr-2" />
-                    Browse Fish Database
-                  </Button>
-                </div>
+        <Card className="bg-gradient-to-r from-orange-950/50 via-red-900/50 to-orange-950/50 border-orange-500/30" glow>
+          <div className="flex flex-col md:flex-row items-start gap-6">
+            <div className="flex-shrink-0">
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/50">
+                <Sparkles className="w-8 h-8 text-white" />
               </div>
             </div>
-          </Card>
-        </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-3xl font-bold text-white">
+                  Lava Basin Expansion Update 🔥
+                </h2>
+              </div>
+              <p className="text-orange-100 mb-6 text-lg">
+                New area, charm crafting system, new resources, quests, QoL improvements, and anti-cheat upgrades.
+              </p>
+              <Button to="/updates/lava-basin-expansion" size="lg">
+                Read Full Update
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
+          </div>
+        </Card>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
@@ -758,7 +920,7 @@ export default function Home() {
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ENGAGEMENT: FAQ Accordion */}
-      {/* ══════════════════════════���═══════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
       <section id="faq" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeader 
           title="Frequently Asked Questions"

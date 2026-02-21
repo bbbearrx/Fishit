@@ -183,6 +183,13 @@
     <changefreq>weekly</changefreq>
   </url>
   
+  <!-- RNG Calculator -->
+  <url>
+    <loc>https://fishit.gg/rng-calculator</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
   <!-- Codes Page -->
   <url>
     <loc>https://fishit.gg/codes</loc>
