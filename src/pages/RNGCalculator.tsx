@@ -256,9 +256,9 @@ export default function RNGCalculator() {
           subtitle="See your real odds, expected casts, and time estimates"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* LEFT: Input Controls */}
-          <div className="lg:col-span-1">
+          <div>
             <Card className="h-full">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
                 <Target className="w-6 h-6 text-cyan-400" />
@@ -359,7 +359,7 @@ export default function RNGCalculator() {
           </div>
 
           {/* RIGHT: Results Display */}
-          <div className="lg:col-span-2">
+          <div>
             <div className="space-y-6">
               {/* Selected Fish Info OR Custom Rarity Info */}
               {useCustomRarity ? (
