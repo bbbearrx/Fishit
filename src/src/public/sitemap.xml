@@ -1083,7 +1083,7 @@
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- Individual Fishing Rod Pages (23 total) -->
+  <!-- Individual Rod Pages (23 total) -->
   <url>
     <loc>https://fishit.gg/fishing-rods/starter-rod</loc>
     <priority>0.7</priority>

@@ -48,7 +48,45 @@ export default function RNGCalculator() {
   // STATE MANAGEMENT
   // ═══════════════════════════════════════════════════════════════════════════
 
-  const [selectedFish, setSelectedFish] = useState(fishData[0]);
+  // Find the rarest fish to use as default
+  const getRarestFish = () => {
+    const rarityOrder: { [key: string]: number } = {
+      'Secret': 1,
+      'Mythic': 2,
+      'Legendary': 3,
+      'Epic': 4,
+      'Rare': 5,
+      'Uncommon': 6,
+      'Common': 7
+    };
+    
+    const sorted = [...fishData].sort((a, b) => {
+      const rarityA = rarityOrder[a.Rarity] || 999;
+      const rarityB = rarityOrder[b.Rarity] || 999;
+      
+      if (rarityA !== rarityB) {
+        return rarityA - rarityB;
+      }
+      
+      const parseChanceForSort = (chanceStr: string): number => {
+        const match = chanceStr.match(/1 in ([\d,]+)/);
+        if (!match) return 0;
+        return parseInt(match[1].replace(/,/g, ''));
+      };
+      
+      const chanceA = parseChanceForSort(a.Chance);
+      const chanceB = parseChanceForSort(b.Chance);
+      
+      return chanceB - chanceA;
+    });
+    
+    console.log('🎣 Rarest fish sorted:', sorted.slice(0, 5).map(f => `${f["Fish Name"]} (${f.Rarity}) - ${f.Chance}`));
+    console.log('🎯 Default selected fish:', sorted[0]["Fish Name"]);
+    
+    return sorted[0];
+  };
+
+  const [selectedFish, setSelectedFish] = useState(getRarestFish());
   const [luckMultiplier, setLuckMultiplier] = useState(100);
   const [castsPerHour, setCastsPerHour] = useState(600);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
@@ -215,7 +253,7 @@ export default function RNGCalculator() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* HERO SECTION */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden min-h-[600px]">
+      <section className="relative overflow-hidden min-h-[342px]">
         {/* Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950"></div>
@@ -249,7 +287,7 @@ export default function RNGCalculator() {
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* CALCULATOR SECTION */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* ══════════��════════════════════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Advanced Probability Calculator"
@@ -496,22 +534,24 @@ export default function RNGCalculator() {
                   </Card>
 
                   {/* Explanation Box */}
-                  <Card className="bg-blue-950/30 border-blue-500/30">
-                    <div className="flex items-start gap-3">
-                      <HelpCircle className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
-                      <div>
-                        <h4 className="text-lg font-bold text-blue-300 mb-2">What This Means</h4>
-                        <p className="text-blue-100 mb-3">
-                          RNG doesn't guarantee results. Even after {expectedCasts!.toLocaleString()} casts, you could still miss it. 
-                          This tool shows <strong>probability</strong>, not certainty.
-                        </p>
-                        <p className="text-blue-100">
-                          A "50% chance" means that if 100 players each did {castsForProbability(0.50).toLocaleString()} casts, 
-                          about 50 would catch it and 50 wouldn't. You're rolling the dice every single cast.
-                        </p>
-                      </div>
+                  <div className="rounded-2xl bg-gradient-to-br from-slate-800/90 to-slate-900/95 border border-cyan-500/20 backdrop-blur-md p-8 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 transition-all duration-500 animate-[fadeIn_0.6s_ease-out]">
+                    <h4 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-2">What This Means</h4>
+                    <div className="h-1 w-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mb-6" />
+                    
+                    <div className="mb-6 leading-relaxed text-lg">
+                      <p className="text-slate-200 mb-4">
+                        RNG doesn't guarantee results. Even after <span className="text-white font-bold">{expectedCasts!.toLocaleString()} casts</span>, you could still miss it. 
+                        This tool shows <span className="text-cyan-300 font-semibold">probability</span>, not certainty.
+                      </p>
                     </div>
-                  </Card>
+                    
+                    <div className="bg-slate-700/40 border border-cyan-500/20 rounded-xl px-4 py-3">
+                      <p className="text-slate-100 leading-relaxed">
+                        A <span className="text-cyan-300 font-semibold">"50% chance"</span> means that if <span className="text-white font-bold">100 players</span> each did <span className="text-white font-bold">{castsForProbability(0.50).toLocaleString()} casts</span>, 
+                        about <span className="text-white font-bold">50 would catch it</span> and <span className="text-white font-bold">50 wouldn't</span>. You're rolling the dice every single cast.
+                      </p>
+                    </div>
+                  </div>
                 </>
               )}
             </div>

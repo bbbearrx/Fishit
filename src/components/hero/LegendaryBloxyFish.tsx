@@ -189,7 +189,7 @@ export default function LegendaryBloxyFish({
       } else {
         // PREMIUM: Majestic cinematic swimming from left to right
         
-        // Slow, steady horizontal movement
+        // Slow, steady horizontal movement (always right)
         pos.x += vel.x;
         
         // Gentle vertical wave motion (reduced amplitude for stability)
@@ -204,25 +204,21 @@ export default function LegendaryBloxyFish({
         const targetRotation = verticalVelocity * 8; // Slight tilt
         rotationRef.current += (targetRotation - rotationRef.current) * 0.08;
 
-        // Bounce off screen edges (smooth turn-around)
-        const margin = 50;
-        
-        // Bounce off left edge
-        if (pos.x < -margin) {
-          vel.x = Math.abs(vel.x); // Go right
-          facingRightRef.current = true;
+        // When fish reaches right edge, respawn on left
+        if (pos.x > bounds.width + size) {
+          pos.x = -size - 100; // Reset to left side (fully offscreen)
+          pos.y = bounds.height * 0.65; // Reset Y to base position
+          rotationRef.current = 0; // Reset rotation
         }
         
-        // Bounce off right edge - IMPORTANT: allow fish to go all the way across
-        if (pos.x > bounds.width - size + margin) {
-          vel.x = -Math.abs(vel.x); // Go left
-          facingRightRef.current = false;
-        }
+        // Ensure fish always faces right and moves right
+        vel.x = Math.abs(vel.x); // Always positive (moving right)
+        facingRightRef.current = true; // Always facing right
         
         // Bounce off top/bottom edges
-        if (pos.y < margin) {
+        if (pos.y < 50) {
           vel.y = Math.abs(vel.y) * 0.3;
-        } else if (pos.y > bounds.height - size - margin) {
+        } else if (pos.y > bounds.height - size - 50) {
           vel.y = -Math.abs(vel.y) * 0.3;
         }
 
@@ -232,12 +228,11 @@ export default function LegendaryBloxyFish({
         // Update shimmer phase (6-8 second cycle)
         shimmerPhaseRef.current += 0.008;
 
-        // Apply transform
+        // Apply transform (always scaleX(1) for right-facing)
         fishRef.current.style.transform = `
           translate3d(${pos.x}px, ${pos.y}px, 0) 
           rotate(${rotationRef.current}deg) 
           scale(1)
-          scaleX(${facingRightRef.current ? 1 : -1})
         `;
 
         // Update clickable area position
@@ -292,7 +287,8 @@ export default function LegendaryBloxyFish({
   }, [prefersReducedMotion, size]);
 
   const handleInteraction = () => {
-    setShowTooltip(true);
+    // Directly open bloxy.gg when fish is clicked
+    window.open('https://bloxy.gg', '_blank', 'noopener,noreferrer');
   };
 
   const handleClose = (e: React.MouseEvent) => {
@@ -393,12 +389,7 @@ export default function LegendaryBloxyFish({
           zIndex: 3,
         }}
         onClick={handleInteraction}
-        onMouseEnter={handleInteraction}
-        onMouseLeave={() => {
-          // Don't auto-hide on desktop to allow clicking tooltip
-          if (window.innerWidth >= 768) return;
-          setShowTooltip(false);
-        }}
+        aria-label="Visit bloxy.gg"
       >
         {/* Invisible hit area */}
       </div>
