@@ -208,7 +208,7 @@ export default function RNGCalculator() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* HERO SECTION */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[600px]">
         {/* Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950"></div>
@@ -514,7 +514,7 @@ export default function RNGCalculator() {
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* FAQ SECTION */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* ═��═════════════════════════════════════════════════════════════════ */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Frequently Asked Questions"
