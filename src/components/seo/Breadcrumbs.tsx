@@ -45,6 +45,7 @@ const pathToLabel: Record<string, string> = {
     'items': 'Items & Equipment',
     'fish': 'Fish & Creatures',
     'rod-tier-list': 'Rod Tier List',
+    'rng-calculator': 'RNG Calculator',
     'updates': 'Updates & Patch Notes',
     'guides': 'Guides & Tips',
 };

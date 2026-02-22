@@ -1,6 +1,12 @@
-import { createBrowserRouter, createHashRouter } from "react-router";
-import Root from "./components/Root";
+import { createBrowserRouter } from "react-router";
+console.log('✅ Step 1: react-router imported');
+
+import Root, { RootErrorBoundary } from "./components/Root";
+console.log('✅ Step 2: Root imported');
+
 import Home from "./pages/Home";
+console.log('✅ Step 3: Home imported');
+
 import GameOverview from "./pages/GameOverview";
 import HowToPlay from "./pages/HowToPlay";
 import Items from "./pages/Items";
@@ -11,6 +17,7 @@ import OurNetwork from "./pages/OurNetwork";
 import Mechanics from "./pages/Mechanics";
 import NotFound from "./pages/NotFound";
 import Locations from "./pages/Locations";
+console.log('✅ Step 4: Core pages imported');
 
 // Fish Database pages
 import FishDatabase from "./pages/FishDatabase";
@@ -19,6 +26,7 @@ import LocationPage from "./pages/LocationPage";
 import RaritiesHub from "./pages/RaritiesHub";
 import RarityPage from "./pages/RarityPage";
 import SecretFish from "./pages/SecretFish";
+console.log('✅ Step 5: Fish pages imported');
 
 // Fishing Rods pages
 import FishingRods from "./pages/FishingRods";
@@ -27,6 +35,18 @@ import RodTierList from "./pages/RodTierList";
 
 // RNG Calculator
 import RNGCalculator from "./pages/RNGCalculator";
+
+// Create a test component
+function TestComponent() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-950">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-white mb-4">TEST COMPONENT WORKS!</h1>
+        <p className="text-cyan-400">If you see this, routing is working fine.</p>
+      </div>
+    </div>
+  );
+}
 
 // Update pages
 import LavaBasinExpansion from "./pages/LavaBasinExpansion";
@@ -75,47 +95,28 @@ import SecretRarity from "./pages/rarities/SecretRarity";
 
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * ROUTER ENVIRONMENT DETECTION
+ * ROUTES CONFIGURATION — BROWSER ROUTING FOR FIGMA PREVIEW
  * ═══════════════════════════════════════════════════════════════════════════
  * 
  * PURPOSE:
- * Automatically choose the correct router type based on the environment:
- * - HashRouter (#/page) for Figma preview, localhost, and preview environments
- * - BrowserRouter (/page) for production deployments (Cloudflare Pages)
+ * Centralized routing configuration using React Router's Data Router API.
+ * Uses BrowserRouter for compatibility with Figma Preview's preview-route parameter.
  * 
- * WHY THIS IS NEEDED:
- * Figma's preview environment doesn't support HTML5 pushState routing properly,
- * causing "href" errors with createBrowserRouter. Hash-based routing works
- * everywhere but uses #/page URLs. We want clean URLs in production.
+ * ROUTING STRATEGY:
+ * - BrowserRouter (/page) for Figma Preview (uses ?preview-route=/page)
+ * - Will work in Cloudflare Pages with proper _redirects file
  * 
- * DETECTION LOGIC:
- * If hostname includes "figma", "preview", or "localhost" → use HashRouter
- * Otherwise → use BrowserRouter (production)
+ * HOW TO ADD NEW ROUTES:
+ * 1. Import the page component at the top
+ * 2. Add route object to the routeConfig array
+ * 3. For nested routes, add to children array
  */
-
-const isPreviewEnvironment = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  
-  const hostname = window.location.hostname.toLowerCase();
-  
-  // Check if we're in Figma preview, localhost, or other preview environments
-  return (
-    hostname.includes('figma') ||
-    hostname.includes('preview') ||
-    hostname.includes('localhost') ||
-    hostname === '127.0.0.1' ||
-    hostname === ''
-  );
-};
-
-// ═══════════════════════════════════════════════════════════════════════════
-// ROUTE CONFIGURATION (shared by both router types)
-// ═══════════════════════════════════════════════════════════════════════════
 
 const routeConfig = [
   {
     path: "/",
     Component: Root,
+    ErrorBoundary: RootErrorBoundary,
     children: [
       { index: true, Component: Home },
       { path: "overview", Component: GameOverview },
@@ -198,19 +199,7 @@ const routeConfig = [
   },
 ];
 
-// ═══════════════════════════════════════════════════════════════════════════
-// ROUTER CREATION
-// ═══════════════════════════════════════════════════════════════════════════
-
-// Determine which router to use based on environment
-const useHashRouter = isPreviewEnvironment();
-
-// Log which router is being used (helpful for debugging)
-if (typeof window !== 'undefined') {
-  console.log(
-    `[Fish It Router] Using ${useHashRouter ? 'HashRouter (#/page URLs)' : 'BrowserRouter (/page URLs)'} ` +
-    `for hostname: ${window.location.hostname}`
-  );
-}
-
-export const router = useHashRouter ? createHashRouter(routeConfig) : createBrowserRouter(routeConfig);
+// Export the BrowserRouter
+console.log('🔥 ROUTER: Using BrowserRouter for Figma Preview compatibility');
+export const router = createBrowserRouter(routeConfig);
+console.log('📍 ROUTES REGISTERED:', routeConfig[0].children?.map(r => r.path || 'index'));

@@ -20,7 +20,7 @@
  * - No hardcoded odds
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calculator, TrendingUp, Clock, Target, HelpCircle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { fishData, getFishSlug } from '../data/fishData';
 import Card from '../components/Card';
@@ -35,6 +35,8 @@ import JsonLd from '../components/seo/JsonLd';
 import { Link } from 'react-router';
 
 export default function RNGCalculator() {
+  console.log('🎣 RNGCalculator component rendering...');
+  
   // ═══════════════════════════════════════════════════════════════════════════
   // EDITABLE CONTENT
   // ═══════════════════════════════════════════════════════════════════════════
@@ -54,6 +56,11 @@ export default function RNGCalculator() {
   // Custom rarity mode
   const [useCustomRarity, setUseCustomRarity] = useState(false);
   const [customRarityValue, setCustomRarityValue] = useState(1000000);
+
+  // SEO: Set document title
+  useEffect(() => {
+    document.title = pageTitle + " | FishIt.gg";
+  }, [pageTitle]);
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SORT FISH BY RARITY (RAREST FIRST)
@@ -514,7 +521,7 @@ export default function RNGCalculator() {
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* FAQ SECTION */}
-      {/* ═��═════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SectionHeader
           title="Frequently Asked Questions"

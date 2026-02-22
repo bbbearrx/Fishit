@@ -574,12 +574,12 @@ export default function RodTierList() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       <RelatedPages 
         parent={{
-          title: "Fishing Rods Database",
-          link: "/fishing-rods"
+          label: "Fishing Rods Database",
+          href: "/fishing-rods"
         }}
         related={[
-          { title: "Fish Database", link: "/fish-database" },
-          { title: "Mechanics Guide", link: "/mechanics" },
+          { label: "Fish Database", href: "/fish-database" },
+          { label: "Mechanics Guide", href: "/mechanics" },
         ]}
         includeHome={true}
       />

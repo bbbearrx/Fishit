@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router';
+import { useLocation, Link } from 'react-router';
 import { Fish, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
@@ -10,6 +10,7 @@ export default function Header() {
     { path: '/fish-database', label: 'Fish Database' },
     { path: '/fishing-rods', label: 'Fishing Rods' },
     { path: '/rod-tier-list', label: 'Rod Tier List' },
+    { path: '/rng-calculator', label: 'RNG Calculator' },
     { path: '/codes', label: 'Codes' },
     { path: '/locations', label: 'Locations' },
     { path: '/mechanics', label: 'Mechanics' },

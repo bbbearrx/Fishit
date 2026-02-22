@@ -61,6 +61,7 @@ export default function MiniSitemap() {
         { label: 'Browse by Rarity', href: '/rarities' },
         { label: 'Secret Fish', href: '/secret-fish' },
         { label: 'Fishing Rods Guide', href: '/fishing-rods' },
+        { label: 'RNG Calculator', href: '/rng-calculator' },
       ],
     },
     {
