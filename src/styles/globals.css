@@ -132,20 +132,25 @@
     margin: 0;
     padding: 0;
     width: 100%;
+    max-width: 100%;
     height: 100%;
     box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   body {
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-width: 100vw;
   }
 
   /* Ensure React root container is full width */
   #root,
   #app {
     width: 100%;
+    max-width: 100%;
+    min-width: 100vw;
     min-height: 100%;
   }
 }
