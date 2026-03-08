@@ -21,16 +21,9 @@ This project is configured for **Cloudflare Pages** deployment with **Vite**.
 /
 ├── public/              # Static assets
 │   ├── _redirects      # Cloudflare Pages SPA routing
-│   ├── favicon.svg     # Site favicon
 │   ├── robots.txt      # SEO crawling rules
 │   └── sitemap.xml     # SEO sitemap
 ├── components/         # React components
-├── pages/              # Route pages
-├── data/               # Fish & rod datasets
-├── styles/             # Global CSS
-├── routes.tsx          # React Router config
-├── index.html          # Entry point
-└── vite.config.ts      # Vite configuration
 ```
 
 ## 🛠️ Development

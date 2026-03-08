@@ -11,9 +11,10 @@
 
 ### Essential Files in `/public/`
 - [x] `_redirects` - Cloudflare Pages SPA routing configuration
-- [x] `favicon.svg` - Site favicon
 - [x] `robots.txt` - SEO crawler configuration
 - [x] `sitemap.xml` - SEO sitemap (main pages)
+
+**Favicons:** All favicon files are hosted on Cloudflare R2 at `https://assets.empyreus.site/fishit/` including Google Search-required PNG sizes (48x48, 96x96, 192x192, 512x512).
 
 ## 📋 Cloudflare Pages Setup
 
@@ -47,7 +48,7 @@ None required - this is a static site.
 ### Check SEO Files:
 - [ ] `https://fishit.gg/robots.txt` - Accessible
 - [ ] `https://fishit.gg/sitemap.xml` - Accessible
-- [ ] `https://fishit.gg/favicon.svg` - Displays correctly
+- [ ] `https://fishit.gg/favicon.ico` - Displays correctly
 
 ### Test Routing:
 - [ ] Direct URL navigation works (e.g., paste URL and hit enter)
@@ -61,15 +62,6 @@ None required - this is a static site.
 ```
 /*    /index.html   200
 ```
-
-### Issue: Favicon not showing
-**Solution:** Add PNG favicons to `/public/`:
-- `favicon-16x16.png`
-- `favicon-32x32.png`  
-- `apple-touch-icon.png`
-- `favicon-512x512.png`
-
-Generate these using the original `/public/generate-favicons.html` tool (now deleted).
 
 ## 📊 Performance Optimization
 
