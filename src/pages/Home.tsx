@@ -51,7 +51,6 @@ import Card from '../components/Card';
 import Badge from '../components/Badge';
 import SectionHeader from '../components/SectionHeader';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import MiniSitemap from '../components/sections/MiniSitemap';
 import NetworkPromo from '../components/sections/NetworkPromo';
 import JsonLd from '../components/seo/JsonLd';
 import PremiumFishLayer from '../components/hero/PremiumFishLayer';
@@ -785,97 +784,80 @@ export default function Home() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* Uniform Grid - All Cards Same Size */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          {/* Left Column: Featured Rods */}
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <Anchor className="w-6 h-6 text-cyan-400" />
-              Featured Rods in Fish It (2026 Meta Picks)
-            </h3>
-            
-            <div className="space-y-4">
-              {featuredRods.map((rod, index) => (
-                <Card key={index} hover>
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <Badge variant="epic" className="mb-2">
-                          Featured Rod
-                        </Badge>
-                        <h4 className="text-xl font-bold text-white mb-1">
-                          {rod.name}
-                        </h4>
-                        <p className="text-cyan-400 text-sm font-semibold">
-                          {rod.title}
-                        </p>
-                      </div>
-                      <Anchor className="w-8 h-8 text-cyan-400/30 flex-shrink-0" />
-                    </div>
-                    
-                    <p className="text-gray-300 leading-relaxed">
-                      {rod.description}
+          {/* Featured Rods */}
+          {featuredRods.map((rod, index) => (
+            <Card key={`rod-${index}`} hover className="h-full flex flex-col">
+              <div className="flex flex-col h-full">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="flex-1">
+                    <Badge variant="epic" className="mb-2">
+                      Featured Rod
+                    </Badge>
+                    <h4 className="text-xl font-bold text-white mb-1">
+                      {rod.name}
+                    </h4>
+                    <p className="text-cyan-400 text-sm font-semibold">
+                      {rod.title}
                     </p>
-                    
-                    <div className="pt-4 border-t border-cyan-500/20">
-                      <p className="text-sm text-gray-400 mb-3">
-                        <span className="font-semibold text-cyan-400">Best For:</span> {rod.bestFor}
-                      </p>
-                      <Button to={rod.link} size="sm" className="w-full">
-                        {rod.linkText}
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    </div>
                   </div>
-                </Card>
-              ))}
-            </div>
-          </div>
+                  <Anchor className="w-8 h-8 text-cyan-400/30 flex-shrink-0" />
+                </div>
+                
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  {rod.description}
+                </p>
+                
+                <div className="pt-4 border-t border-cyan-500/20 mt-auto">
+                  <p className="text-sm text-gray-400 mb-3">
+                    <span className="font-semibold text-cyan-400">Best For:</span> {rod.bestFor}
+                  </p>
+                  <Button to={rod.link} size="sm" className="w-full">
+                    {rod.linkText}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
 
-          {/* Right Column: Rare Catches */}
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <Fish className="w-6 h-6 text-blue-400" />
-              Rare & Legendary Catches to Hunt
-            </h3>
-            
-            <div className="space-y-4">
-              {rareCatches.map((fish, index) => (
-                <Card key={index} hover>
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <Badge variant={fish.rarity === 'Secret' ? 'legendary' : 'rare'} className="mb-2">
-                          {fish.rarity}
-                        </Badge>
-                        <h4 className="text-xl font-bold text-white mb-1">
-                          {fish.name}
-                        </h4>
-                        <p className="text-blue-400 text-sm font-semibold">
-                          {fish.location}
-                        </p>
-                      </div>
-                      <Fish className="w-8 h-8 text-blue-400/30 flex-shrink-0" />
-                    </div>
-                    
-                    <p className="text-gray-300 leading-relaxed">
-                      {fish.description}
+          {/* Rare Catches */}
+          {rareCatches.map((fish, index) => (
+            <Card key={`fish-${index}`} hover className="h-full flex flex-col">
+              <div className="flex flex-col h-full">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="flex-1">
+                    <Badge variant={fish.rarity === 'Secret' ? 'legendary' : 'rare'} className="mb-2">
+                      {fish.rarity}
+                    </Badge>
+                    <h4 className="text-xl font-bold text-white mb-1">
+                      {fish.name}
+                    </h4>
+                    <p className="text-blue-400 text-sm font-semibold">
+                      {fish.location}
                     </p>
-                    
-                    <div className="pt-4 border-t border-cyan-500/20">
-                      <p className="text-sm text-gray-400 mb-3">
-                        <span className="font-semibold text-blue-400">Location:</span> {fish.locationLabel}
-                      </p>
-                      <Button to={fish.link} size="sm" className="w-full">
-                        {fish.linkText}
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    </div>
                   </div>
-                </Card>
-              ))}
-            </div>
-          </div>
+                  <Fish className="w-8 h-8 text-blue-400/30 flex-shrink-0" />
+                </div>
+                
+                <p className="text-gray-300 leading-relaxed mb-4 flex-grow">
+                  {fish.description}
+                </p>
+                
+                <div className="pt-4 border-t border-cyan-500/20 mt-auto">
+                  <p className="text-sm text-gray-400 mb-3">
+                    <span className="font-semibold text-blue-400">Location:</span> {fish.locationLabel}
+                  </p>
+                  <Button to={fish.link} size="sm" className="w-full">
+                    {fish.linkText}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
 
         </div>
       </section>
@@ -1017,148 +999,10 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* SEO: Explore Fish It Faster (Quick Navigation) */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-slate-800">
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
-            Explore Fish It Faster (Quick Navigation)
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Link to="/fish-database" aria-label="Go to Fish Database" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <Fish className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Fish Database</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Search every fish by location, rarity, chance, and value.
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                Browse → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/fishing-rods" aria-label="Go to Fishing Rods" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <Anchor className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Fishing Rods</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Full rod stats with requirements and notes.
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                Browse → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/rod-tier-list" aria-label="Go to Rod Tier List" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <TrendingUp className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Rod Tier List</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Fast comparisons across all rods.
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                Compare → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/rarities" aria-label="Go to Rarities" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <Waves className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Rarities</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Understand Common → Secret tiers.
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                Learn → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/secret-fish" aria-label="Go to Secret Fish" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Secret Fish</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Track trophy-tier ultra-rare entries.
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                View → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/guides" aria-label="Go to Guides" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <BookOpen className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Guides</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Beginner to end-game progression strategy.
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                Read → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/codes" aria-label="Go to Codes" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <Package className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Codes</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Active and expired Fish It codes (kept accurate).
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                Redeem → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/updates" aria-label="Go to Updates" className="block">
-            <Card hover className="group cursor-pointer h-full">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                <Calendar className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">Updates</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                Patch notes timeline and major additions.
-              </p>
-              <span className="flex items-center text-cyan-400 group-hover:text-cyan-300 transition-colors text-sm">
-                Track → <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Card>
-          </Link>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* ENGAGEMENT: Network Promotion */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* Promotes the Empyreus network of Roblox guide sites */}
       <NetworkPromo />
-
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* ENGAGEMENT: Mini Sitemap */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      <MiniSitemap />
     </div>
   );
 }

@@ -1,11 +1,8 @@
 import { createBrowserRouter } from "react-router";
-console.log('✅ Step 1: react-router imported');
 
 import Root, { RootErrorBoundary } from "./components/Root";
-console.log('✅ Step 2: Root imported');
 
 import Home from "./pages/Home";
-console.log('✅ Step 3: Home imported');
 
 import GameOverview from "./pages/GameOverview";
 import HowToPlay from "./pages/HowToPlay";
@@ -17,7 +14,6 @@ import OurNetwork from "./pages/OurNetwork";
 import Mechanics from "./pages/Mechanics";
 import NotFound from "./pages/NotFound";
 import Locations from "./pages/Locations";
-console.log('✅ Step 4: Core pages imported');
 
 // Fish Database pages
 import FishDatabase from "./pages/FishDatabase";
@@ -26,7 +22,6 @@ import LocationPage from "./pages/LocationPage";
 import RaritiesHub from "./pages/RaritiesHub";
 import RarityPage from "./pages/RarityPage";
 import SecretFish from "./pages/SecretFish";
-console.log('✅ Step 5: Fish pages imported');
 
 // Fishing Rods pages
 import FishingRods from "./pages/FishingRods";
@@ -199,7 +194,4 @@ const routeConfig = [
   },
 ];
 
-// Export the BrowserRouter
-console.log('🔥 ROUTER: Using BrowserRouter for Figma Preview compatibility');
 export const router = createBrowserRouter(routeConfig);
-console.log('📍 ROUTES REGISTERED:', routeConfig[0].children?.map(r => r.path || 'index'));
